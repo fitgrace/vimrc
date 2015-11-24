@@ -415,7 +415,7 @@ if has('gui_running')
     set cursorline
 
     " 高亮光标所在的列
-    set cursorcolumn
+    " set cursorcolumn
 
     if has("gui_macvim")
         set anti " Mac OS X 用平滑反锯齿的字体
@@ -529,6 +529,12 @@ vmap <S-Tab> <gv
 " 插件快捷键
 nmap <Leader>mr :MRU<cr>
 
+" CTRL-C are Copy  
+vmap <C-c> y  
+
+" CTRL-V are Paste  
+inoremap <C-v> gP  
+
 
 " =============================
 " Nerd Tree
@@ -606,7 +612,7 @@ vmap <Leader>a: :Tabularize /:\zs<cr>
 
 " ======================================
 " 多语言语法检查
-" Bundle 'scrooloose/syntastic
+" scrooloose/syntastic
 " ======================================
 let g:syntastic_error_symbol='>>'
 let g:syntastic_warning_symbol='>'
