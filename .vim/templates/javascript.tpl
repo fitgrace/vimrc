@@ -1,5 +1,7 @@
+'use strict';
+
 /**
- * File   : filename.css
+ * File   : filename.js
  * Author : FitGrace【fitingrace#gmail.com 】
  * Link   : http://www.fitgrace.com/
  * Since  : 创建日期

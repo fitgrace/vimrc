@@ -1,10 +1,9 @@
 " File          : .vimrc
-" Author        : FitGracw<fitingrace@gmail.com>
+" Author        : FitGrace【fitingrace#gmail.com 】
 " Description   : fitgrace's personal vim config file
 " Last Modified : 2015-11-02 20:27:49
 " Website       : http://www.fitgrace.com/
 " Since         : 2015-10-30
-"
 
 
 " 是否兼容vi，compatible为兼容，nocompatible为不完全兼容
@@ -34,6 +33,9 @@ call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
+
+" 状态栏增强展示
+Plugin 'bling/vim-airline'
 
 " 必不可少，在VIM的编辑窗口树状显示文件目录
 Plugin 'scrooloose/nerdtree'
@@ -70,10 +72,10 @@ Plugin 'kien/rainbow_parentheses.vim'
 
 " JS 美化
 Plugin 'maksimr/vim-jsbeautify'
-Plugin 'einars/js-beautify'
+" Plugin 'einars/js-beautify'
 
 " JS语法着色组件及代码缩进组件
-Plugin 'jelera/vim-javascript-syntax'
+" Plugin 'jelera/vim-javascript-syntax'
 
 " 代码格式化
 " ,a=  按等号切分格式化
@@ -168,7 +170,7 @@ set wrap          " 自动换行
 
 " 标签页
 set tabpagemax=9  " 可打开的标签数
-set showtabline=2 " 是否显示标签栏，0: 不显示，1: 默认设置，在创建标签页后才显示，2: 总是显示
+set showtabline=1 " 是否显示标签栏，0: 不显示，1: 默认设置，在创建标签页后才显示，2: 总是显示
 
 " 行号和标尺
 set number  " 显示行号
@@ -540,13 +542,13 @@ inoremap <C-v> gP
 " Nerd Tree
 " =============================
 nmap <Leader>nt :NERDTree<cr>
-let NERDTreeHighlightCursorline=1
+" 不显示帮助面板
+" let NERDTreeMinimalUI=1
+"let NERDTreeHighlightCursorline=1
+" 设置需要忽略的文件
 let NERDTreeIgnore=[ '\.pyc$', '\.pyo$', '\.obj$', '\.o$', '\.so$', '\.egg$', '^\.git$', '^\.svn$', '^\.hg$' ]
 "close vim if the only window left open is a NERDTree
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | end
-" s/v 分屏打开文件
-let g:NERDTreeMapOpenSplit = 's'
-let g:NERDTreeMapOpenVSplit = 'v'
 
 
 " =============================
@@ -614,49 +616,44 @@ vmap <Leader>a: :Tabularize /:\zs<cr>
 " 多语言语法检查
 " scrooloose/syntastic
 " ======================================
-let g:syntastic_error_symbol='>>'
-let g:syntastic_warning_symbol='>'
-let g:syntastic_check_on_open=1
-let g:syntastic_check_on_wq=0
-let g:syntastic_enable_highlighting=1
+" 错误行使用'>>' 标记
+let g:syntastic_error_symbol = '>>'
+" 警告行使用'>' 标记
+let g:syntastic_warning_symbol = '>'
+" 不建议首次打开文件时进行检查
+let g:syntastic_check_on_open = 0
+" :wq 时不进行检查，注意这跟 :w 不一样
+" let g:syntastic_check_on_wq = 0
+" 提示内容高亮显示
+let g:syntastic_enable_highlighting = 1
+" 设置 Javascript 检查规则为 eslint
+let g:syntastic_javascript_checkers = ['eslint']
+" 注意安装后 eslint 需要在系统环境变量中，否则需要指定 path
+" let g:syntastic_javascript_eslint_exec = 'eslint'
+" 指定 eslint 配置文件
+" let g:syntastic_javascript_eslint_conf = $HOME.'/.vim/.eslintrc.js'
+let g:syntastic_javascript_eslint_args = '--config /Users/FitGrace/.vim/.eslintrc.js'
 
-" 最轻量
-" let g:syntastic_python_checkers=['pyflakes'] " 使用pyflakes
-
-" 中等
-" error code: http://pep8.readthedocs.org/en/latest/intro.html#error-codes
-let g:syntastic_python_checkers=['pyflakes', 'pep8'] " 使用pyflakes,速度比pylint快
-let g:syntastic_python_pep8_args='--ignore=E501,E225,E124,E712'
-
-" 重量级, 但是足够强大, 定制完成后相当个性化
-" pylint codes: http://pylint-messages.wikidot.com/all-codes
-" let g:syntastic_python_checkers=['pyflakes', 'pylint'] " 使用pyflakes,速度比pylint快
-" let g:syntastic_python_checkers=['pylint'] " 使用pyflakes,速度比pylint快
-" let g:syntastic_python_pylint_args='--disable=C0111,R0903,C0301'
-
-
-let g:syntastic_javascript_checkers = ['jsl', 'jshint']
-let g:syntastic_html_checkers=['tidy', 'jshint']
-" 修改高亮的背景色, 适应主题
-highlight SyntasticErrorSign guifg=white guibg=black
-
-" to see error location list
+" 提示内容显示相关
 let g:syntastic_always_populate_loc_list = 0
 let g:syntastic_auto_loc_list = 0
 let g:syntastic_loc_list_height = 5
 
-function! ToggleErrors()
+" 修改高亮的背景色, 适应主题
+highlight SyntasticErrorSign guifg=white guibg=black
+
+function!  ToggleErrors()
     let old_last_winnr = winnr('$')
     lclose
     if old_last_winnr == winnr('$')
-        " Nothing was closed, open syntastic error location
-        panel
+        " Nothing was closed, open syntastic_error location panel
         Errors
     endif
 endfunction
 nnoremap <Leader>s :call ToggleErrors()<cr>
 " nnoremap <Leader>sn :lnext<cr>
 " nnoremap <Leader>sp :lprevious<cr>
+
 
 
 " ======================================
@@ -668,7 +665,6 @@ nnoremap <Leader>s :call ToggleErrors()<cr>
 " autocmd FileType css,less noremap <Leader>js :call CSSBeautify()<cr>
 nmap <leader>xfh :call HtmlBeautify()<cr>
 nmap <leader>xfj :call JsBeautify()<cr>
-autocmd FileType javascript noremap <buffer>  <c-f> :call JsBeautify()<cr>
 
 
 " ======================================
