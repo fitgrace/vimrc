@@ -1,6 +1,6 @@
 /**
  * File   : filename.css
- * Author : FitGrace【fitingrace#gmail.com 】
+ * Author : FitGrace【fitingrace@gmail.com 】
  * Link   : http://www.fitgrace.com/
  * Since  : 创建日期
  * Version: 版本号

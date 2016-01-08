@@ -105,7 +105,7 @@ Plugin 'tomasr/molokai'
 " 放置在Bundle的设置后，防止意外BUG
 call vundle#end()            " required（ 必须的设置 ）
 
-""启动自动补全
+" 自动检测文件类型, 基于文件类型的插件生效, 智能缩进
 filetype plugin indent on
 
 
